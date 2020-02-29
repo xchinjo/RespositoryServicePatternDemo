@@ -20,7 +20,8 @@ namespace RepositoryServicePatternDemo
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.UseStartup<Startup>();
+                    webBuilder.UseStartup<Startup>()                    
+                        .UseUrls("http://0.0.0.0:4000","https://0.0.0.0:4001");                    
                 });
     }
 }

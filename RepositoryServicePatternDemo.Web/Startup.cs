@@ -33,6 +33,7 @@ namespace RepositoryServicePatternDemo.Web
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
+             //   options.EnableEndpointRouting = false;
             });
 
             services.AddTransient<ITicketRepository, TicketRepository>();
@@ -41,8 +42,10 @@ namespace RepositoryServicePatternDemo.Web
             services.AddTransient<ITicketService, TicketService>();
             services.AddTransient<IFinancialsService, FinancialsService>();
 
+            services.AddControllersWithViews();
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
+
+            //services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -61,14 +64,27 @@ namespace RepositoryServicePatternDemo.Web
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-            app.UseCookiePolicy();
+            
+          //  app.UseCookiePolicy();
 
-            app.UseMvc(routes =>
+            app.UseRouting();
+
+           // app.UseAuthorization();
+
+
+            app.UseEndpoints(endpoints =>
             {
-                routes.MapRoute(
+                endpoints.MapControllerRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
-            });
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
+            });            
+
+            // app.UseMvc(routes =>
+            // {
+            //     routes.MapRoute(
+            //         name: "default",
+            //         template: "{controller=Home}/{action=Index}/{id?}");
+            // });
         }
     }
 }
